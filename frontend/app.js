@@ -15,37 +15,37 @@ document.getElementById('btn-buscar').addEventListener('click', () => {
     params.append('busca', busca);
   }
 
-  const url = `/equipamentos?${params.toString()}`;
+  const url = `/produtos?${params.toString()}`;
 
   fetch(url)
     .then(response => response.json())
     .then(data => {
       document.getElementById('total-resultados').textContent = data.total;
 
-      const tbody = document.querySelector('#tabela-equipamentos tbody');
+      const tbody = document.querySelector('#tabela-produtos tbody');
       tbody.innerHTML = '';
 
-      data.equipamentos.forEach(equipamento => {
+      data.produtos.forEach(produto => {
         const tr = document.createElement('tr');
         
         const tdId = document.createElement('td');
-        tdId.textContent = equipamento.id;
+        tdId.textContent = produto.id;
         tr.appendChild(tdId);
 
         const tdNome = document.createElement('td');
-        tdNome.textContent = equipamento.nome;
+        tdNome.textContent = produto.nome;
         tr.appendChild(tdNome);
 
         const tdTipo = document.createElement('td');
-        tdTipo.textContent = equipamento.tipo;
+        tdTipo.textContent = produto.tipo;
         tr.appendChild(tdTipo);
 
         const tdStatus = document.createElement('td');
-        tdStatus.textContent = equipamento.status;
+        tdStatus.textContent = produto.status;
         tr.appendChild(tdStatus);
 
         const tdDescricao = document.createElement('td');
-        tdDescricao.textContent = equipamento.descricao;
+        tdDescricao.textContent = produto.descricao;
         tr.appendChild(tdDescricao);
 
         tbody.appendChild(tr);

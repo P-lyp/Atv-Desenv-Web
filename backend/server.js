@@ -2,9 +2,10 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-app.use(express.static('public'));
+app.use(express.json());
+app.use(express.static('../frontend'));
 
-const equipamentos = [
+const produtos = [
   { id: 1, nome: "Epson PowerLite", tipo: "projetor", status: "disponivel", descricao: "Projetor HDMI/VGA" },
   { id: 2, nome: "Dell Inspiron", tipo: "notebook", status: "emprestado", descricao: "Notebook i5 8GB" },
   { id: 3, nome: "Kit Arduino", tipo: "kit", status: "manutencao", descricao: "Kit completo Arduino Uno" },
@@ -17,27 +18,27 @@ const equipamentos = [
   { id: 10, nome: "Cabo VGA 5m", tipo: "cabo", status: "disponivel", descricao: "Cabo VGA macho/macho" }
 ];
 
-app.get('/equipamentos', (req, res) => {
+app.get('/produtos', (req, res) => {
   const { status, tipo, busca } = req.query;
   
-  let filtrados = equipamentos;
+  let filtrados = produtos;
   
   if (status) {
-    filtrados = filtrados.filter(e => e.status === status);
+    filtrados = filtrados.filter(p => p.status === status);
   }
   
   if (tipo) {
-    filtrados = filtrados.filter(e => e.tipo === tipo);
+    filtrados = filtrados.filter(p => p.tipo === tipo);
   }
   
   if (busca) {
     const termo = busca.toLowerCase();
-    filtrados = filtrados.filter(e => e.nome.toLowerCase().includes(termo));
+    filtrados = filtrados.filter(p => p.nome.toLowerCase().includes(termo));
   }
   
   res.json({
     total: filtrados.length,
-    equipamentos: filtrados
+    produtos: filtrados
   });
 });
 
