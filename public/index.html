@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratório de Informática - Consulta de Equipamentos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Consulta de Equipamentos</h1>
+    
+    <div class="filtros">
+      <select id="filtro-status">
+        <option value="">Todos os status</option>
+        <option value="disponivel">Disponível</option>
+        <option value="emprestado">Emprestado</option>
+        <option value="manutencao">Manutenção</option>
+      </select>
+
+      <select id="filtro-tipo">
+        <option value="">Todos os tipos</option>
+        <option value="projetor">Projetor</option>
+        <option value="notebook">Notebook</option>
+        <option value="kit">Kit</option>
+        <option value="cabo">Cabo</option>
+        <option value="webcam">Webcam</option>
+        <option value="microfone">Microfone</option>
+      </select>
+
+      <input type="text" id="filtro-busca" placeholder="Buscar por nome">
+      
+      <button id="btn-buscar">Buscar</button>
+    </div>
+
+    <div class="resultados">
+      <p>Total de resultados: <span id="total-resultados">0</span></p>
+      
+      <table id="tabela-equipamentos">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Tipo</th>
+            <th>Status</th>
+            <th>Descrição</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
