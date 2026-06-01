@@ -42,6 +42,33 @@ app.get('/produtos', (req, res) => {
   });
 });
 
+app.post('/produtos', (req, res) => {
+  const { nome, tipo, status, descricao } = req.body;
+
+  if (!nome || !tipo) {
+    return res.status(400).json({ erro: 'Nome e tipo são obrigatórios.' });
+  }
+
+  const statusValidos = ['disponivel', 'emprestado', 'manutencao'];
+  if (status && !statusValidos.includes(status)) {
+    return res.status(400).json({ erro: 'Status inválido. Use: disponivel, emprestado ou manutencao.' });
+  }
+
+  const novoId = produtos.length > 0 ? Math.max(...produtos.map(p => p.id)) + 1 : 1;
+
+  const novoProduto = {
+    id: novoId,
+    nome,
+    tipo,
+    status: status || 'disponivel',
+    descricao: descricao || ''
+  };
+
+  produtos.push(novoProduto);
+
+  res.status(201).json(novoProduto);
+});
+
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
