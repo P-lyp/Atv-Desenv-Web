@@ -69,6 +69,47 @@ app.post('/produtos', (req, res) => {
   res.status(201).json(novoProduto);
 });
 
+app.get('/produtos/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const produto = produtos.find(p => p.id === id);
+
+  if (!produto) {
+    return res.status(404).json({ erro: 'Produto não encontrado.' });
+  }
+
+  res.json(produto);
+});
+
+app.put('/produtos/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = produtos.findIndex(p => p.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ erro: 'Produto não encontrado.' });
+  }
+
+  const { nome, tipo, status, descricao } = req.body;
+  
+  if (nome) produtos[index].nome = nome;
+  if (tipo) produtos[index].tipo = tipo;
+  if (status) produtos[index].status = status;
+  if (descricao !== undefined) produtos[index].descricao = descricao;
+
+  res.json(produtos[index]);
+});
+
+app.delete('/produtos/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = produtos.findIndex(p => p.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ erro: 'Produto não encontrado.' });
+  }
+
+  produtos.splice(index, 1);
+  res.json({ mensagem: 'Produto excluído com sucesso.' });
+});
+
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
