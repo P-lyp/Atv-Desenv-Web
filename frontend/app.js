@@ -42,6 +42,39 @@ function carregarProdutos() {
         tdDescricao.textContent = produto.descricao;
         tr.appendChild(tdDescricao);
 
+        const tdAcoes = document.createElement('td');
+        
+        const btnEditar = document.createElement('button');
+        btnEditar.textContent = 'Editar';
+        btnEditar.onclick = () => {
+          document.getElementById('prod-id').value = produto.id;
+          document.getElementById('prod-nome').value = produto.nome;
+          document.getElementById('prod-tipo').value = produto.tipo;
+          document.getElementById('prod-status').value = produto.status;
+          document.getElementById('prod-descricao').value = produto.descricao;
+        };
+        tdAcoes.appendChild(btnEditar);
+
+        const btnExcluir = document.createElement('button');
+        btnExcluir.textContent = 'Excluir';
+        btnExcluir.style.marginLeft = '5px';
+        btnExcluir.onclick = () => {
+          if (confirm('Tem certeza que deseja excluir este produto?')) {
+            fetch(`/produtos/${produto.id}`, { method: 'DELETE' })
+              .then(res => {
+                if (res.status === 200 || res.status === 204) {
+                  alert('Produto excluído com sucesso!');
+                  carregarProdutos();
+                } else {
+                  alert('Erro ao excluir o produto.');
+                }
+              });
+          }
+        };
+        tdAcoes.appendChild(btnExcluir);
+
+        tr.appendChild(tdAcoes);
+
         tbody.appendChild(tr);
       });
     })
@@ -76,6 +109,24 @@ document.getElementById('form-produto').addEventListener('submit', (e) => {
         carregarProdutos();
       } else {
         res.json().then(data => alert(data.erro || 'Erro ao cadastrar'));
+      }
+    });
+  } else {
+    fetch(`/produtos/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(produto)
+    })
+    .then(res => {
+      if (res.status === 200) {
+        alert('Produto atualizado com sucesso!');
+        document.getElementById('form-produto').reset();
+        document.getElementById('prod-id').value = '';
+        carregarProdutos();
+      } else {
+        res.json().then(data => alert(data.erro || 'Erro ao atualizar'));
       }
     });
   }
