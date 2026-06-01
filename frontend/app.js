@@ -1,19 +1,13 @@
-document.getElementById('btn-buscar').addEventListener('click', () => {
+function carregarProdutos() {
   const status = document.getElementById('filtro-status').value;
   const tipo = document.getElementById('filtro-tipo').value;
   const busca = document.getElementById('filtro-busca').value;
 
   const params = new URLSearchParams();
 
-  if (status) {
-    params.append('status', status);
-  }
-  if (tipo) {
-    params.append('tipo', tipo);
-  }
-  if (busca) {
-    params.append('busca', busca);
-  }
+  if (status) params.append('status', status);
+  if (tipo) params.append('tipo', tipo);
+  if (busca) params.append('busca', busca);
 
   const url = `/produtos?${params.toString()}`;
 
@@ -51,7 +45,40 @@ document.getElementById('btn-buscar').addEventListener('click', () => {
         tbody.appendChild(tr);
       });
     })
-    .catch(error => {
-      console.error(error);
+    .catch(error => console.error(error));
+}
+
+document.getElementById('btn-buscar').addEventListener('click', carregarProdutos);
+
+document.getElementById('form-produto').addEventListener('submit', (e) => {
+  e.preventDefault();
+  
+  const id = document.getElementById('prod-id').value;
+  const nome = document.getElementById('prod-nome').value;
+  const tipo = document.getElementById('prod-tipo').value;
+  const status = document.getElementById('prod-status').value;
+  const descricao = document.getElementById('prod-descricao').value;
+
+  const produto = { nome, tipo, status, descricao };
+
+  if (!id) {
+    fetch('/produtos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(produto)
+    })
+    .then(res => {
+      if (res.status === 201) {
+        alert('Produto cadastrado com sucesso!');
+        document.getElementById('form-produto').reset();
+        carregarProdutos();
+      } else {
+        res.json().then(data => alert(data.erro || 'Erro ao cadastrar'));
+      }
     });
+  }
 });
+
+carregarProdutos();

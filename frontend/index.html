@@ -10,6 +10,32 @@
   <div class="container">
     <h1>Lista de Produtos</h1>
     
+    <div class="cadastro">
+      <h2>Cadastrar Produto</h2>
+      <form id="form-produto">
+        <input type="hidden" id="prod-id">
+        <input type="text" id="prod-nome" placeholder="Nome" required>
+        <select id="prod-tipo" required>
+          <option value="">Selecione o tipo</option>
+          <option value="projetor">Projetor</option>
+          <option value="notebook">Notebook</option>
+          <option value="kit">Kit</option>
+          <option value="cabo">Cabo</option>
+          <option value="webcam">Webcam</option>
+          <option value="microfone">Microfone</option>
+        </select>
+        <select id="prod-status" required>
+          <option value="">Selecione o status</option>
+          <option value="disponivel">Disponível</option>
+          <option value="emprestado">Emprestado</option>
+          <option value="manutencao">Manutenção</option>
+        </select>
+        <input type="text" id="prod-descricao" placeholder="Descrição">
+        <button type="submit">Salvar</button>
+      </form>
+    </div>
+    <hr>
+
     <div class="filtros">
       <select id="filtro-status">
         <option value="">Todos os status</option>
