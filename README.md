@@ -1,8 +1,7 @@
 # CRUD de Produtos
 
 ## Integrantes
-- Nome do Aluno 1
-- Nome do Aluno 2 (se houver)
+- Felipe Alves da Silva 
 
 ## Como rodar o projeto
 
